@@ -1,13 +1,23 @@
-<script lang="ts">
+<script module lang="ts">
 	import * as Avatar from '$lib/components/ui/avatar';
 	import { Badge } from '$lib/components/ui/badge';
 	import { Button } from '$lib/components/ui/button';
 	import * as HoverCard from '$lib/components/ui/hover-card';
 	import { Input } from '$lib/components/ui/input';
 	import { Skeleton } from '$lib/components/ui/skeleton';
+	import type { User } from '../types';
 </script>
 
+<script>
+	// export let data: { user: User };
+</script>
+
+<!-- {#if data.user}
+	<h1>{data.user.name} (@{data.user.login})</h1>
+{/if} -->
 <main class="container mx-auto px-5 sm:px-6 lg:px-8 py-8">
+	<Input class="mb-5" placeholder="Input" />
+
 	<div
 		class="group relative !border rounded-lg shadow-lg transition-all min-h-[120px] flex flex-row gap-5 md:flex-row bg-background/20 backdrop-blur-md backdrop-filter hover:shadow pt-6 px-5 pb-5 mb-2 hover:hover-card-dark hover:dark:hover-card-light"
 	>
@@ -30,8 +40,6 @@
 		<HoverCard.Trigger>Hover</HoverCard.Trigger>
 		<HoverCard.Content>SvelteKit - Web development, streamlined</HoverCard.Content>
 	</HoverCard.Root>
-
-	<Input />
 
 	<Skeleton class="h-[20px] w-[100px] rounded-full" />
 </main>
