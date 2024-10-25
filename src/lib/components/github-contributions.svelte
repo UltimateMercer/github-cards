@@ -79,37 +79,40 @@
 	$: weekColumns = getWeekColumns(contributions);
 </script>
 
-<div class="max-w-full overflow-x-auto p-4">
+<div class="max-w-full overflow-x-auto py-4">
 	<h2 class="text-2xl font-bold mb-4">GitHub Contributions for {username}</h2>
 	{#if isLoading}
 		<p>Loading contributions...</p>
 	{:else if error}
 		<p class="text-red-500">Error: {error}</p>
 	{:else}
-		<div class="flex">
-			<div class="flex flex-col">
-				<div class="flex">
-					{#each weekColumns as week}
-						<div class="flex flex-col mr-1">
-							{#each week as contribution}
-								{#if contribution}
-									<div
-										class="w-4 h-4 rounded-[2px] {getColor(contribution.count)} border mb-1"
-										title="{contribution.count} contributions on {formatDate(contribution.date)}"
-									>
-										<span class="sr-only"
-											>{contribution.count} contributions on {formatDate(contribution.date)}</span
+		<div class="p-2 bg-background/20 backdrop-blur-md backdrop-filter border rounded-lg">
+			<div class="flex">
+				<div class="flex flex-col">
+					<div class="flex">
+						{#each weekColumns as week}
+							<div class="flex flex-col mr-1">
+								{#each week as contribution}
+									{#if contribution}
+										<div
+											class="w-4 h-4 rounded-[2px] {getColor(contribution.count)} border mb-1"
+											title="{contribution.count} contributions on {formatDate(contribution.date)}"
 										>
-									</div>
-								{:else}
-									<div class="w-4 h-4 mb-1"></div>
-								{/if}
-							{/each}
-						</div>
-					{/each}
+											<span class="sr-only"
+												>{contribution.count} contributions on {formatDate(contribution.date)}</span
+											>
+										</div>
+									{:else}
+										<div class="w-4 h-4 mb-1"></div>
+									{/if}
+								{/each}
+							</div>
+						{/each}
+					</div>
 				</div>
 			</div>
 		</div>
+
 		<div class="flex justify-end items-center mt-2 text-sm text-gray-600">
 			<span class="mr-2">Less</span>
 			<div class="flex gap-1">
