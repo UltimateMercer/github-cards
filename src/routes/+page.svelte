@@ -5,16 +5,17 @@
 	import * as HoverCard from '$lib/components/ui/hover-card';
 	import { Input } from '$lib/components/ui/input';
 	import { Skeleton } from '$lib/components/ui/skeleton';
+	import GitHubContributions from '$lib/components/github-contributions.svelte';
 	import type { User } from '../types';
 </script>
 
 <script>
-	// export let data: { user: User };
+	export let data: { user: User };
 </script>
 
-<!-- {#if data.user}
+{#if data.user}
 	<h1>{data.user.name} (@{data.user.login})</h1>
-{/if} -->
+{/if}
 <main class="container mx-auto px-5 sm:px-6 lg:px-8 py-8">
 	<Input class="mb-5" placeholder="Input" />
 
@@ -26,6 +27,7 @@
 		>
 			Github Data
 		</div>
+		<GitHubContributions username={data.user.login} />
 	</div>
 	<Avatar.Root>
 		<Avatar.Image src="https://github.com/shadcn.png" alt="@shadcn" />
