@@ -20,13 +20,25 @@
 	<Input class="mb-5" placeholder="Input" />
 
 	<div
-		class="group relative !border rounded-lg shadow-lg transition-all min-h-[120px] flex flex-row gap-5 md:flex-row bg-background/20 backdrop-blur-md backdrop-filter hover:shadow pt-6 px-5 pb-5 mb-2 hover:hover-card-dark hover:dark:hover-card-light"
+		class="group relative !border rounded-lg shadow-lg transition-all min-h-[120px] flex flex-col gap-5 bg-background/20 backdrop-blur-md backdrop-filter hover:shadow pt-6 px-5 pb-5 mb-2 hover:hover-card-dark hover:dark:hover-card-light"
 	>
 		<div
 			class="absolute -top-4 bg-background inline-flex items-center px-2 py-1.5 rounded font-medium tracking-wide leading-none text-black dark:text-white !border"
 		>
 			Github Data
 		</div>
+		<div class="flex flex-row gap-5">
+			<img src={data.user.avatar_url} class="h-44 w-44 object-cover rounded" alt="" />
+			<div class="flex-1">
+				<h1 class="text-2xl">{data.user.name}</h1>
+				<h3 class="text-lg">@{data.user.login}</h3>
+				<p>{data.user.bio}</p>
+				<p>Public repos: {data.user.public_repos}</p>
+				<p>Followers: {data.user.followers}</p>
+				<p>Following: {data.user.following}</p>
+			</div>
+		</div>
+
 		<GitHubContributions username={data.user.login} />
 	</div>
 	<Avatar.Root>

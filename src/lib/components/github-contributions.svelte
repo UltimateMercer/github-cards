@@ -52,51 +52,30 @@
 		return date.toLocaleString('default', { month: 'short' });
 	}
 
+	/**
+	 * Groups an array of contributions into weeks.
+	 *
+	 * @param contributions the array of contributions
+	 * @returns an array of arrays, where each inner array represents a week of contributions.
+	 * The weeks are ordered from earliest to latest, and the contributions within each week
+	 * are ordered from earliest to latest as well.
+	 */
 	function getWeekColumns(contributions: Contribution[]): (Contribution | null)[][] {
-		const weeks: (Contribution | null)[][] = [Array(7).fill(null)];
-		let currentWeek: (Contribution | null)[] = Array(7).fill(null);
-
-		contributions.forEach((contribution, index) => {
-			const dayOfWeek = getDayOfWeek(contribution.date);
-
-			if (dayOfWeek === 0 && currentWeek.some((day) => day !== null)) {
-				weeks.push(currentWeek);
-				currentWeek = Array(7).fill(null);
+		return contributions.reduce((weeks: (Contribution | null)[][], contribution, index) => {
+			// Calculate the week index by dividing the contribution index by 7
+			// (since there are 7 days in a week).
+			const weekIndex = Math.floor(index / 7);
+			// If the week array doesn't exist yet, create it.
+			if (!weeks[weekIndex]) {
+				weeks[weekIndex] = [];
 			}
-
-			currentWeek[dayOfWeek] = contribution;
-
-			if (index === contributions.length - 1) {
-				weeks.push(currentWeek);
-			}
-		});
-
-		return weeks;
-	}
-
-	function getMonthPositions(
-		weekColumns: (Contribution | null)[][]
-	): { label: string; index: number }[] {
-		const monthPositions: { label: string; index: number }[] = [];
-		let currentMonth = '';
-
-		weekColumns.forEach((week, weekIndex) => {
-			week.forEach((day, dayIndex) => {
-				if (day) {
-					const month = getMonthLabel(day.date);
-					if (month !== currentMonth) {
-						monthPositions.push({ label: month, index: weekIndex });
-						currentMonth = month;
-					}
-				}
-			});
-		});
-
-		return monthPositions;
+			// Add the contribution to the week array.
+			weeks[weekIndex].push(contribution);
+			return weeks;
+		}, []);
 	}
 
 	$: weekColumns = getWeekColumns(contributions);
-	$: monthPositions = getMonthPositions(weekColumns);
 </script>
 
 <div class="max-w-full overflow-x-auto p-4">
@@ -107,21 +86,9 @@
 		<p class="text-red-500">Error: {error}</p>
 	{:else}
 		<div class="flex">
-			<!-- <div class="flex flex-col mr-2 text-xs text-gray-500">
-				<div class="h-5 w-8"></div>
-				<div class="h-5 w-8"></div>
-				{#each ['Mon', '', 'Wed', '', 'Fri', ''] as day}
-					<div class="h-4 w-8 mb-1 text-right pr-2">{day}</div>
-				{/each}
-			</div> -->
 			<div class="flex flex-col">
-				<!-- <div class="flex mb-1 text-xs text-gray-500 relative h-5">
-					{#each monthPositions as { label, index }}
-						<div class="absolute" style="left: {index * 16}px">{label}</div>
-					{/each}
-				</div> -->
 				<div class="flex">
-					{#each weekColumns as week, weekIndex}
+					{#each weekColumns as week}
 						<div class="flex flex-col mr-1">
 							{#each week as contribution}
 								{#if contribution}
@@ -145,7 +112,7 @@
 		<div class="flex justify-end items-center mt-2 text-sm text-gray-600">
 			<span class="mr-2">Less</span>
 			<div class="flex gap-1">
-				<div class="w-4 h-4 bg-gray-100"></div>
+				<div class="w-4 h-4 bg-gray-100 bg-"></div>
 				<div class="w-4 h-4 bg-green-200"></div>
 				<div class="w-4 h-4 bg-green-300"></div>
 				<div class="w-4 h-4 bg-green-400"></div>
