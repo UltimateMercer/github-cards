@@ -1,30 +1,13 @@
 import { Octokit } from '@octokit/rest';
 import { RequestError } from '@octokit/request-error';
+import type {
+	Contribution,
+	ContributionGraphQLResponse,
+	PinnedReposGraphQLResponse
+} from '../types';
 
 // Initialize Octokit with the GitHub token
 const octokit = new Octokit({ auth: import.meta.env.VITE_GITHUB_TOKEN });
-
-// Define the structure of a single contribution
-export interface Contribution {
-	date: string;
-	count: number;
-}
-
-// Define the structure of the GraphQL response
-interface GraphQLResponse {
-	user: {
-		contributionsCollection: {
-			contributionCalendar: {
-				weeks: {
-					contributionDays: {
-						date: string;
-						contributionCount: number;
-					}[];
-				}[];
-			};
-		};
-	};
-}
 
 /**
  * Fetches the contributions for a given GitHub username over the past year
@@ -58,7 +41,7 @@ export async function fetchUserContributions(username: string): Promise<Contribu
   `;
 
 	try {
-		const { user } = await octokit.graphql<GraphQLResponse>(query, {
+		const { user } = await octokit.graphql<ContributionGraphQLResponse>(query, {
 			username,
 			from: fromDate,
 			to: toDate
@@ -94,4 +77,46 @@ export function isValidGitHubUsername(username: string): boolean {
 	// Length must be between 1 and 39 characters
 	const usernameRegex = /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i;
 	return usernameRegex.test(username);
+}
+
+export async function fetchUserPinnedRepos(username: string) {
+	const query = `
+      query($username: String!) {
+        user(login: $username) {
+          pinnedItems(first: 6, types: REPOSITORY) {
+            nodes {
+              ... on Repository {
+                name
+                description
+                url
+                stargazerCount
+                forkCount
+								createdAt
+                primaryLanguage {
+                  name
+                }
+								owner {
+									login
+									avatarUrl
+									url
+									
+								}
+              }
+            }
+          }
+        }
+      }
+    `;
+
+	try {
+		const response = await octokit.graphql<PinnedReposGraphQLResponse>(query, { username });
+		const pinnedRepos = response.user.pinnedItems.nodes;
+		return pinnedRepos;
+	} catch (error) {
+		if (error instanceof RequestError) {
+			throw new Error(`GitHub API error: ${error.message}`);
+		} else {
+			throw new Error('An unknown error occurred while fetching pinned repos');
+		}
+	}
 }

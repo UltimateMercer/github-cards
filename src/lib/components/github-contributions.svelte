@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { fetchUserContributions, type Contribution, isValidGitHubUsername } from '../github-api';
+	import { fetchUserContributions, isValidGitHubUsername } from '../github-api';
+	import type { Contribution } from '../../types';
 
 	export let username: string;
 

@@ -7,10 +7,12 @@
 	import { Skeleton } from '$lib/components/ui/skeleton';
 	import GitHubContributions from '$lib/components/github-contributions.svelte';
 	import type { User } from '../types';
+	import PinnedRepos from '$lib/components/pinned-repos.svelte';
 </script>
 
 <script>
-	export let data: { user: User };
+	export let data;
+	console.log(data.repos[0]);
 </script>
 
 {#if data.user}
@@ -28,14 +30,20 @@
 			Github Data
 		</div>
 		<div class="flex flex-row gap-5">
-			<img src={data.user.avatar_url} class="h-44 w-44 object-cover rounded" alt="" />
-			<div class="flex-1">
-				<h1 class="text-2xl">{data.user.name}</h1>
+			<div class="">
+				<img src={data.user.avatar_url} class="h-56 w-56 object-cover rounded mb-2.5" alt="" />
 				<h3 class="text-lg">@{data.user.login}</h3>
-				<p>{data.user.bio}</p>
-				<p>Public repos: {data.user.public_repos}</p>
 				<p>Followers: {data.user.followers}</p>
 				<p>Following: {data.user.following}</p>
+			</div>
+			<div class="flex-1">
+				<h1 class="text-2xl">{data.user.name}</h1>
+				<p>{data.user.bio}</p>
+				<p>Public repos: {data.user.public_repos}</p>
+
+				<!-- <div class="">
+					<pre>{JSON.stringify(data.user, null, 2)}</pre>
+				</div> -->
 			</div>
 		</div>
 
@@ -56,4 +64,8 @@
 	</HoverCard.Root>
 
 	<Skeleton class="h-[20px] w-[100px] rounded-full" />
+	<PinnedRepos username={data.user.login} />
+	{#each data.repos as repo}
+		<p>{repo.name}</p>
+	{/each}
 </main>
