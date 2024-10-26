@@ -6,6 +6,7 @@ import type {
 	ContributionGraphQLResponse,
 	PinnedReposGraphQLResponse
 } from '../types';
+import { queryForUserContributions, queryForUserPinnedRepos } from '../graphql-queries';
 
 // Initialize Octokit with the GitHub token
 const octokit = new Octokit({ auth: import.meta.env.VITE_GITHUB_TOKEN });
@@ -25,25 +26,8 @@ export async function fetchUserContributions(username: string): Promise<Contribu
 
 	const toDate = new Date().toISOString();
 
-	const query = `
-    query($username: String!, $from: DateTime!, $to: DateTime!) {
-      user(login: $username) {
-        contributionsCollection(from: $from, to: $to) {
-          contributionCalendar {
-            weeks {
-              contributionDays {
-                date
-                contributionCount
-              }
-            }
-          }
-        }
-      }
-    }
-  `;
-
 	try {
-		const { user } = await octokit.graphql<ContributionGraphQLResponse>(query, {
+		const { user } = await octokit.graphql<ContributionGraphQLResponse>(queryForUserContributions, {
 			username,
 			from: fromDate,
 			to: toDate
@@ -85,36 +69,10 @@ export function isValidGitHubUsername(username: string): boolean {
 }
 
 export async function fetchUserPinnedRepos(username: string) {
-	const query = `
-      query($username: String!) {
-        user(login: $username) {
-          pinnedItems(first: 6, types: REPOSITORY) {
-            nodes {
-              ... on Repository {
-                name
-								nameWithOwner
-                description
-                url
-                stargazerCount
-                forkCount
-								createdAt
-                primaryLanguage {
-                  name
-                }
-								owner {
-									login
-									avatarUrl
-									url
-								}
-              }
-            }
-          }
-        }
-      }
-    `;
-
 	try {
-		const response = await octokit.graphql<PinnedReposGraphQLResponse>(query, { username });
+		const response = await octokit.graphql<PinnedReposGraphQLResponse>(queryForUserPinnedRepos, {
+			username
+		});
 		const pinnedRepos = response.user.pinnedItems.nodes;
 		return pinnedRepos;
 	} catch (error) {
