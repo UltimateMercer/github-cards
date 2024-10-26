@@ -40,6 +40,10 @@
 	console.log(query);
 </script>
 
+<svelte:head>
+	<title>Github Cards by Ultimate Mercer</title>
+</svelte:head>
+
 <main class="container mx-auto px-5 sm:px-6 lg:px-8 py-8">
 	<div
 		class="relative !border rounded-lg shadow-lg transition-all bg-background/20 backdrop-blur-md backdrop-filter hover:shadow pt-6 px-5 pb-6 mb-2"
