@@ -1,7 +1,5 @@
 import { type VariantProps, tv } from "tailwind-variants";
 import type { Button as ButtonPrimitive } from "bits-ui";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
 import Root from "./button.svelte";
 
 const buttonVariants = tv({

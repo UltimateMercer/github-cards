@@ -25,10 +25,12 @@
 		"autoprefixer": "^10.4.20",
 		"bits-ui": "^0.21.16",
 		"clsx": "^2.1.1",
+		"embla-carousel-svelte": "^8.3.0",
 		"eslint": "^9.7.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.36.0",
 		"globals": "^15.0.0",
+		"lucide-svelte": "^0.453.0",
 		"prettier": "^3.3.2",
 		"prettier-plugin-svelte": "^3.2.6",
 		"svelte": "^5.0.0",
@@ -45,7 +47,7 @@
 		"@octokit/core": "^6.1.2",
 		"@octokit/rest": "^21.0.2",
 		"axios": "^1.7.7",
-		"lucide-svelte": "^0.453.0",
+		"date-fns": "^4.1.0",
 		"mode-watcher": "^0.4.1"
 	}
 }
