@@ -1,27 +1,42 @@
+import { fetchUserContributions, fetchUserPinnedRepos } from '$lib/github-api';
 import { Octokit } from '@octokit/rest';
+import type { ContributionsObject, PinnedRepo } from '../types';
 
 const octokit = new Octokit({
 	auth: import.meta.env.VITE_GITHUB_TOKEN
 });
 
 export async function load() {
-	const res = await octokit.users.getByUsername({
-		username: 'UltimateMercer'
-	});
+	try {
+		const { data: user } = await octokit.users.getByUsername({
+			username: 'UltimateMercer'
+		});
 
-	const repos: { data: any } = await octokit.repos.listForUser({
-		username: 'UltimateMercer',
-		per_page: 100,
-		sort: 'updated',
-		type: 'all'
-	});
+		const { data: repos }: { data: any } = await octokit.repos.listForUser({
+			username: 'UltimateMercer',
+			per_page: 100,
+			sort: 'updated',
+			type: 'all'
+		});
 
-	if (!res.data || !repos.data) {
-		throw new Error('Data not found');
+		if (!user || !repos) {
+			throw new Error('Data not found');
+		}
+
+		const pinnedRepos: PinnedRepo[] = await fetchUserPinnedRepos('UltimateMercer');
+
+		const { contributions, totalContributions }: ContributionsObject =
+			await fetchUserContributions('UltimateMercer');
+
+		return {
+			user,
+			repos,
+			pinnedRepos,
+			contributions,
+			totalContributions
+		};
+	} catch (e) {
+		const error = e instanceof Error ? e.message : 'An unknown error occurred';
+		console.error(error);
 	}
-
-	return {
-		user: res.data,
-		repos: repos.data
-	};
 }
