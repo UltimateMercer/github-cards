@@ -9,6 +9,7 @@
 	import GitHubContributions from '$lib/components/github-contributions.svelte';
 	import type { User } from '../types';
 	import PinnedRepos from '$lib/components/pinned-repos.svelte';
+	import AllRepos from '$lib/components/all-repos.svelte';
 </script>
 
 <script>
@@ -58,25 +59,7 @@
 			</div>
 			<div class="lg:col-span-4 w-full">
 				<h2 class="text-2xl font-bold mb-6">All Repositories</h2>
-				<div
-					class="relative rounded-lg p-6 transition-shadow duration-300 !border bg-background/20 backdrop-blur-md backdrop-filter"
-				>
-					<div
-						class="absolute -top-4 bg-background inline-flex items-center px-2 py-1.5 rounded font-medium tracking-wide leading-none text-black dark:text-white !border"
-					>
-						{data.repos.length} = {data.user.public_repos}
-					</div>
-					<Accordion.Root>
-						{#each data.repos as repo}
-							<Accordion.Item value={repo.full_name}>
-								<Accordion.Trigger>{repo.full_name}</Accordion.Trigger>
-								<Accordion.Content>
-									{JSON.stringify(repo, null, 2)}
-								</Accordion.Content>
-							</Accordion.Item>
-						{/each}
-					</Accordion.Root>
-				</div>
+				<AllRepos repos={data.repos} />
 			</div>
 		</div>
 	</div>
@@ -95,7 +78,4 @@
 	</HoverCard.Root>
 
 	<Skeleton class="h-[20px] w-[100px] rounded-full" />
-	{#each data.repos as repo}
-		<p>{repo.name}</p>
-	{/each}
 </main>
