@@ -84,7 +84,7 @@
 </script>
 
 <div class="max-w-full py-4">
-	<h2 class="text-2xl font-bold mb-4">GitHub Contributions for {username}</h2>
+	<h2 class="text-2xl font-bold mb-5">GitHub Contributions</h2>
 	{#if isLoading}
 		<p>Loading contributions...</p>
 	{:else if error}

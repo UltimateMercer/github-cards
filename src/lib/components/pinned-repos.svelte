@@ -50,7 +50,7 @@
 			{#each pinnedRepos as repo}
 				<Carousel.Item>
 					<div
-						class="group my-4 lg:aspect-square relative rounded-lg shadow p-6 !border bg-background/20 backdrop-blur-md backdrop-filter"
+						class="group my-4 lg:aspect-square relative rounded-lg p-6 !border bg-background/20 backdrop-blur-md backdrop-filter"
 					>
 						<div
 							class="absolute -top-4 bg-background inline-flex items-center px-2 py-1.5 rounded font-medium tracking-wide leading-none text-black dark:text-white !border"
@@ -81,7 +81,7 @@
 							</Button>
 						</div>
 						<div
-							class="absolute -bottom-4 right-4 bg-background inline-flex items-center px-2 py-1.5 rounded font-medium tracking-wide leading-none text-black dark:text-white !border shadow transition-shadow duration-300"
+							class="absolute -bottom-4 right-4 bg-background inline-flex items-center px-2 py-1.5 rounded font-medium tracking-wide leading-none text-black dark:text-white !border transition-shadow duration-300"
 						>
 							<Avatar.Root class="h-6 w-6">
 								<Avatar.Image
