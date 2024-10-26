@@ -14,7 +14,6 @@
 
 <script>
 	export let data;
-	console.log(data.repos[0]);
 </script>
 
 {#if data.user}
@@ -51,13 +50,13 @@
 		</div>
 
 		<GitHubContributions username={data.user.login} />
-		<div class="grid grid-cols-1 lg:grid-cols-6 gap-8">
-			<div class="lg:col-span-2 px-6 w-full relative">
+		<div class="grid grid-cols-1 lg:grid-cols-8 gap-8">
+			<div class="lg:col-span-3 px-6 w-full relative">
 				<div class="lg:sticky lg:top-20">
 					<PinnedRepos username={data.user.login} />
 				</div>
 			</div>
-			<div class="lg:col-span-4 w-full">
+			<div class="lg:col-span-5 w-full">
 				<h2 class="text-2xl font-bold mb-6">All Repositories</h2>
 				<AllRepos repos={data.repos} />
 			</div>

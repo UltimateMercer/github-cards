@@ -1,5 +1,10 @@
 <script lang="ts">
 	import * as Accordion from '$lib/components/ui/accordion';
+	import * as Avatar from '$lib/components/ui/avatar';
+
+	import { Badge } from '$lib/components/ui/badge';
+	import { BookMarked, GitFork, Star, Calendar } from 'lucide-svelte';
+	import { formatFullDate } from '$lib/date-format';
 
 	export let repos;
 </script>
@@ -18,9 +23,47 @@
 		<Accordion.Root>
 			{#each repos as repo}
 				<Accordion.Item value={repo.full_name}>
-					<Accordion.Trigger>{repo.full_name}</Accordion.Trigger>
+					<Accordion.Trigger>
+						<div class="">
+							{repo.full_name}
+							{#if repo.language}
+								<Badge class="ml-2" variant="outline">{repo.language}</Badge>
+							{/if}
+						</div>
+					</Accordion.Trigger>
 					<Accordion.Content>
-						{JSON.stringify(repo, null, 2)}
+						<div class="">
+							<div class="flex flex-col justify-between text-sm">
+								<span class="flex items-center text-base font-medium mb-2">
+									<Star class="w-6 h-6 mr-1.5 fill-yellow-500" color="#eab308" />
+									{repo.stargazers_count}
+								</span>
+								<span class="flex items-center text-base font-medium mb-2">
+									<GitFork class="w-6 h-6 mr-1.5" />
+									{repo.forks_count}
+								</span>
+								<span class="flex items-center text-base font-medium mb-2">
+									<Calendar class="w-6 h-6 mr-1.5" />Created at: {formatFullDate({
+										date: repo.created_at
+									})}
+								</span>
+
+								<div class="flex items-center text-lg">
+									<Avatar.Root class="h-6 w-6">
+										<Avatar.Image
+											src={repo.owner.avatar_url}
+											class="object-cover"
+											alt={`@${repo.owner.login}`}
+										/>
+										<Avatar.Fallback>{repo.owner.login}</Avatar.Fallback>
+									</Avatar.Root>
+									<span class="font-medium ml-2">{repo.owner.login}</span>
+								</div>
+							</div>
+						</div>
+						<!-- <pre>						
+              {JSON.stringify(repo, null, 2)}
+            </pre> -->
 					</Accordion.Content>
 				</Accordion.Item>
 			{/each}

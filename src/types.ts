@@ -70,6 +70,7 @@ export interface RepoOwner {
 
 export interface PinnedRepo {
 	name: string;
+	nameWithOwner: string;
 	description: string | null;
 	url: string;
 	stargazerCount: number;

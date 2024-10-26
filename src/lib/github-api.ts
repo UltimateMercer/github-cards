@@ -92,6 +92,7 @@ export async function fetchUserPinnedRepos(username: string) {
             nodes {
               ... on Repository {
                 name
+								nameWithOwner
                 description
                 url
                 stargazerCount
@@ -104,7 +105,6 @@ export async function fetchUserPinnedRepos(username: string) {
 									login
 									avatarUrl
 									url
-									
 								}
               }
             }
@@ -119,8 +119,11 @@ export async function fetchUserPinnedRepos(username: string) {
 		return pinnedRepos;
 	} catch (error) {
 		if (error instanceof RequestError) {
+			console.error(error);
+
 			throw new Error(`GitHub API error: ${error.message}`);
 		} else {
+			console.error(error);
 			throw new Error('An unknown error occurred while fetching pinned repos');
 		}
 	}

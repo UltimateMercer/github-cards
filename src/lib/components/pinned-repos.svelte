@@ -25,7 +25,6 @@
 
 		try {
 			pinnedRepos = await fetchUserPinnedRepos(username);
-			console.log(pinnedRepos[0]);
 		} catch (e) {
 			error = e instanceof Error ? e.message : 'An unknown error occurred';
 		} finally {
@@ -58,20 +57,24 @@
 							{repo.primaryLanguage ? repo.primaryLanguage.name : 'N/A'}
 						</div>
 
-						<h3 class="text-xl font-semibold mb-2">
-							<span class="flex items-center"><BookMarked class="mr-1" />{repo.name}</span>
+						<h3 class="text-xl font-semibold break-all mb-2">
+							{#if username === repo.owner.login}
+								{repo.name}
+							{:else}
+								{repo.nameWithOwner}
+							{/if}
 						</h3>
 						<p class="text-gray-600 mb-4">{repo.description || 'No description provided.'}</p>
 						<div class="flex flex-col justify-between text-sm">
-							<span class="flex items-center text-base mb-2">
+							<span class="flex items-center text-base font-medium mb-2">
 								<Star class="w-6 h-6 mr-1.5 fill-yellow-500" color="#eab308" />
 								{repo.stargazerCount}
 							</span>
-							<span class="flex items-center text-base mb-2">
+							<span class="flex items-center text-base font-medium mb-2">
 								<GitFork class="w-6 h-6 mr-1.5" />
 								{repo.forkCount}
 							</span>
-							<span class="flex items-center text-base mb-2">
+							<span class="flex items-center text-base font-medium mb-2">
 								<Calendar class="w-6 h-6 mr-1.5" />{formatFullDate({ date: repo.createdAt })}
 							</span>
 						</div>
@@ -91,7 +94,7 @@
 								/>
 								<Avatar.Fallback>{repo.owner.login}</Avatar.Fallback>
 							</Avatar.Root>
-							<span class="ml-2">{repo.owner.login}</span>
+							<span class="font-medium ml-2">{repo.owner.login}</span>
 						</div>
 					</div>
 				</Carousel.Item>
