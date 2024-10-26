@@ -10,7 +10,10 @@ export async function load() {
 	});
 
 	const repos: { data: any } = await octokit.repos.listForUser({
-		username: 'UltimateMercer'
+		username: 'UltimateMercer',
+		per_page: 100,
+		sort: 'updated',
+		type: 'all'
 	});
 
 	if (!res.data || !repos.data) {

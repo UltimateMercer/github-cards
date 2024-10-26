@@ -2,6 +2,7 @@ import { Octokit } from '@octokit/rest';
 import { RequestError } from '@octokit/request-error';
 import type {
 	Contribution,
+	ContributionsObject,
 	ContributionGraphQLResponse,
 	PinnedReposGraphQLResponse
 } from '../types';
@@ -12,12 +13,13 @@ const octokit = new Octokit({ auth: import.meta.env.VITE_GITHUB_TOKEN });
 /**
  * Fetches the contributions for a given GitHub username over the past year
  * @param username The GitHub username to fetch contributions for
- * @returns A Promise that resolves to an array of Contribution objects
+ * @returns A Promise that resolves to an object containing a array of Contribution objects and the total number of contributions
  * @throws {Error} If there's an issue fetching the contributions
  */
-export async function fetchUserContributions(username: string): Promise<Contribution[]> {
+export async function fetchUserContributions(username: string): Promise<ContributionsObject> {
 	const oneYearAgo = new Date();
 	oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+	oneYearAgo.setDate(oneYearAgo.getDate() - 4);
 
 	const fromDate = oneYearAgo.toISOString();
 
@@ -54,9 +56,12 @@ export async function fetchUserContributions(username: string): Promise<Contribu
 				count: day.contributionCount
 			}));
 
-		console.log(contributions[0]);
-		console.log(contributions[contributions.length - 1]);
-		return contributions;
+		const contributionCount = contributions.reduce(
+			(total, contribution) => total + contribution.count,
+			0
+		);
+
+		return { contributions: contributions, totalContributions: contributionCount };
 	} catch (error) {
 		if (error instanceof RequestError) {
 			throw new Error(`GitHub API error: ${error.message}`);

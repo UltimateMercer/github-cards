@@ -9,6 +9,11 @@ export interface User {
 	html_url: string;
 }
 
+export interface DateProps {
+	date: string;
+	locale?: 'pt-br' | 'en-us';
+}
+
 export interface ContributionGraphQLResponse {
 	user: {
 		contributionsCollection: {
@@ -27,6 +32,11 @@ export interface ContributionGraphQLResponse {
 export interface Contribution {
 	count: number;
 	date: string;
+}
+
+export interface ContributionsObject {
+	contributions: Contribution[];
+	totalContributions: number;
 }
 
 export interface GraphQLError {

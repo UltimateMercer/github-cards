@@ -1,11 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { fetchUserContributions, isValidGitHubUsername } from '../github-api';
-	import type { Contribution } from '../../types';
+	import type { Contribution, ContributionsObject } from '../../types';
 
 	export let username: string;
 
+	let response: ContributionsObject | null = null;
 	let contributions: Contribution[] = [];
+	let totalContributions: number = 0;
 	let isLoading = true;
 	let error: string | null = null;
 
@@ -17,7 +19,9 @@
 		isLoading = true;
 		error = null;
 		try {
-			contributions = await fetchUserContributions(username);
+			response = await fetchUserContributions(username);
+			contributions = response.contributions;
+			totalContributions = response.totalContributions;
 		} catch (e) {
 			error = e instanceof Error ? e.message : 'An unknown error occurred';
 		} finally {
@@ -79,16 +83,21 @@
 	$: weekColumns = getWeekColumns(contributions);
 </script>
 
-<div class="max-w-full overflow-x-auto py-4">
+<div class="max-w-full py-4">
 	<h2 class="text-2xl font-bold mb-4">GitHub Contributions for {username}</h2>
 	{#if isLoading}
 		<p>Loading contributions...</p>
 	{:else if error}
 		<p class="text-red-500">Error: {error}</p>
 	{:else}
-		<div class="p-2 bg-background/20 backdrop-blur-md backdrop-filter border rounded-lg">
-			<div class="flex">
-				<div class="flex flex-col">
+		<div class="relative p-6 bg-background/20 backdrop-blur-md backdrop-filter border rounded-lg">
+			<div
+				class="absolute -top-4 bg-background inline-flex items-center px-2 py-1.5 rounded font-medium tracking-wide leading-none text-black dark:text-white !border"
+			>
+				{totalContributions} contributions in the last year
+			</div>
+			<div class="flex flex-col sm:flex-row">
+				<div class="flex flex-col w-full sm:w-auto overflow-x-auto">
 					<div class="flex">
 						{#each weekColumns as week}
 							<div class="flex flex-col mr-1">
@@ -111,18 +120,19 @@
 					</div>
 				</div>
 			</div>
-		</div>
-
-		<div class="flex justify-end items-center mt-2 text-sm text-gray-600">
-			<span class="mr-2">Less</span>
-			<div class="flex gap-1">
-				<div class="w-4 h-4 bg-gray-100 bg-"></div>
-				<div class="w-4 h-4 bg-green-200"></div>
-				<div class="w-4 h-4 bg-green-300"></div>
-				<div class="w-4 h-4 bg-green-400"></div>
-				<div class="w-4 h-4 bg-green-500"></div>
+			<div class="absolute -bottom-4 right-4 !border bg-background px-2 py-1.5 rounded">
+				<div class="flex justify-end items-center text-sm text-gray-600">
+					<span class="mr-2">Less</span>
+					<div class="flex gap-1">
+						<div class="w-4 h-4 bg-gray-100 bg-"></div>
+						<div class="w-4 h-4 bg-green-200"></div>
+						<div class="w-4 h-4 bg-green-300"></div>
+						<div class="w-4 h-4 bg-green-400"></div>
+						<div class="w-4 h-4 bg-green-500"></div>
+					</div>
+					<span class="ml-2">More</span>
+				</div>
 			</div>
-			<span class="ml-2">More</span>
 		</div>
 	{/if}
 </div>
