@@ -21,7 +21,7 @@
 	const debounce = (value: string) => {
 		clearTimeout(timer);
 		timer = setTimeout(() => {
-			username = value;
+			username = value.toLowerCase().replace(/\s+/g, '');
 		}, 1000);
 	};
 
