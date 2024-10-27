@@ -24,10 +24,10 @@
 
 	function getColor(count: number): string {
 		if (count === 0) return 'bg-gray-100 dark:bg-gray-800';
-		if (count < 3) return 'bg-green-200 dark:bg-green-800';
-		if (count < 6) return 'bg-green-300 dark:bg-green-700';
-		if (count < 9) return 'bg-green-400 dark:bg-green-600';
-		return 'bg-green-500';
+		if (count < 3) return 'bg-sky-200 dark:bg-sky-800';
+		if (count < 6) return 'bg-sky-300 dark:bg-sky-700';
+		if (count < 9) return 'bg-sky-400 dark:bg-sky-600';
+		return 'bg-sky-500';
 	}
 
 	function formatDate(dateString: string): string {
@@ -90,6 +90,12 @@
 				{totalContributions} contributions in the last year
 			</div>
 			<div class="flex flex-col sm:flex-row">
+				<div class="flex flex-col gap-1 mr-1.5 text-xs text-gray-500">
+					<div class="h-4 w-8"></div>
+					{#each ['Mon', '', 'Wed', '', 'Fri', ''] as day}
+						<div class="h-4 w-8 text-right font-medium pr-2">{day}</div>
+					{/each}
+				</div>
 				<div class="flex flex-col w-full sm:w-auto overflow-x-auto">
 					<div class="flex">
 						{#each weekColumns as week}
@@ -117,11 +123,11 @@
 				<div class="flex justify-end items-center text-sm text-gray-600">
 					<span class="mr-2">Less</span>
 					<div class="flex gap-1">
-						<div class="w-4 h-4 bg-gray-100 bg-"></div>
-						<div class="w-4 h-4 bg-green-200"></div>
-						<div class="w-4 h-4 bg-green-300"></div>
-						<div class="w-4 h-4 bg-green-400"></div>
-						<div class="w-4 h-4 bg-green-500"></div>
+						<div class="w-4 h-4 bg-gray-100 dark:bg-gray-800"></div>
+						<div class="w-4 h-4 bg-sky-200 dark:bg-sky-800"></div>
+						<div class="w-4 h-4 bg-sky-300 dark:bg-sky-700"></div>
+						<div class="w-4 h-4 bg-sky-400 dark:bg-sky-600"></div>
+						<div class="w-4 h-4 bg-sky-500"></div>
 					</div>
 					<span class="ml-2">More</span>
 				</div>
