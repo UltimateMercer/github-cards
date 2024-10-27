@@ -1,6 +1,7 @@
 import { Octokit } from '@octokit/rest';
 import type { ContributionsObject, PinnedRepo } from '../types';
 import { fetchUserContributions, fetchUserPinnedRepos } from './github-api';
+import { standardizePinnedRepos } from './utils';
 
 const octokit = new Octokit({
 	auth: import.meta.env.VITE_GITHUB_TOKEN
@@ -42,8 +43,9 @@ export async function fetchGithubContributions(username: string) {
 
 export async function fetchGithubPinnedRepos(username: string) {
 	const pinnedRepos: PinnedRepo[] = await fetchUserPinnedRepos(username);
+	const standardPinnedRepos = standardizePinnedRepos(pinnedRepos);
 
-	return pinnedRepos;
+	return standardPinnedRepos;
 }
 
 export async function fetchGithubData(username: string) {
@@ -57,5 +59,18 @@ export async function fetchGithubData(username: string) {
 	const { contributions, totalContributions } = await fetchGithubContributions(username);
 	const pinnedRepos = await fetchGithubPinnedRepos(username);
 
-	return { user, repos, contributions, totalContributions, pinnedRepos };
+	const filteredRepos = repos.filter(
+		(repo: any) =>
+			!pinnedRepos.some(
+				(pinnedRepo) => pinnedRepo.name === repo.name || pinnedRepo.full_name === repo.full_name
+			)
+	);
+
+	return {
+		user,
+		contributions,
+		totalContributions,
+		pinnedRepos,
+		repos: filteredRepos
+	};
 }
