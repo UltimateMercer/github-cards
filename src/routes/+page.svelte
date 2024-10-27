@@ -5,14 +5,11 @@
 	import { Input } from '$lib/components/ui/input';
 	import { Skeleton } from '$lib/components/ui/skeleton';
 	import GitHubContributions from '$lib/components/github-contributions.svelte';
-	import PinnedRepos from '$lib/components/pinned-repos.svelte';
-	import AllRepos from '$lib/components/all-repos.svelte';
 	import * as Sheet from '$lib/components/ui/sheet';
-
 	import { createQuery } from '@tanstack/svelte-query';
 	import { fetchGithubData } from '$lib/api';
-	import { Check, CircleX, Pin, Terminal, GitFork, Star, Calendar } from 'lucide-svelte';
-	import { GithubLogo } from 'phosphor-svelte';
+	import { Check, CircleX, Pin, GitFork, Star, Calendar, Terminal } from 'lucide-svelte';
+	import { GithubLogo, PushPin } from 'phosphor-svelte';
 	import { formatFullDate } from '$lib/date-format';
 </script>
 
@@ -97,7 +94,7 @@
 			{:else if $query.isSuccess}
 				<Check class="mr-1.5 h-5 w-5" /> Github data loaded successfully
 			{:else}
-				<Terminal class="mr-1.5 h-5 w-5" /> Waiting for a username
+				<Terminal class="mr-1" /> Waiting for a username
 			{/if}
 		</div>
 
@@ -174,7 +171,7 @@
 						<div class="flex flex-row flex-wrap gap-2.5">
 							{#each $query.data.pinnedRepos as pinned}
 								<Button on:click={() => handleDialog(pinned)}>
-									<Pin class="mr-2 h-4 w-4" />
+									<PushPin weight="bold" class="mr-2 h-4 w-4" />
 									{pinned.full_name}
 								</Button>
 							{/each}
