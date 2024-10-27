@@ -51,17 +51,6 @@ export interface GraphQLErrorResponse {
 
 import type { Octokit } from '@octokit/core';
 
-// export interface PinnedRepo {
-// 	name: string;
-// 	description: string | null;
-// 	url: string;
-// 	stargazerCount: number;
-// 	forkCount: number;
-// 	primaryLanguage: {
-// 		name: string;
-// 	} | null;
-// }
-
 export interface RepoOwner {
 	login: string;
 	avatarUrl: string;
@@ -80,6 +69,24 @@ export interface PinnedRepo {
 	} | null;
 	owner: RepoOwner;
 	createdAt: string;
+	updatedAt: string;
+}
+
+export interface StandardPinnedRepo {
+	name: string;
+	full_name: string;
+	description: string | null;
+	html_url: string;
+	stargazers_count: number;
+	forks_count: number;
+	language: string;
+	owner: {
+		login: string;
+		url: string;
+		avatar_url: string;
+	};
+	created_at: string;
+	updated_at: string;
 }
 
 export interface PinnedReposProps {

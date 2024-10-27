@@ -28,6 +28,7 @@ export const queryForUserPinnedRepos = `
                 stargazerCount
                 forkCount
 								createdAt
+                updatedAt
                 primaryLanguage {
                   name
                 }
