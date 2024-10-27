@@ -147,7 +147,7 @@
 								</Button>
 							{/each}
 							{#each $query.data.repos as repo}
-								<Button variant="secondary" on:click={() => handleDialog(repo)}>
+								<Button variant="outline" on:click={() => handleDialog(repo)}>
 									{repo.full_name}
 								</Button>
 							{/each}
