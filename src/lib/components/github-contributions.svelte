@@ -1,17 +1,14 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { fetchUserContributions, isValidGitHubUsername } from '../github-api';
 	import type { Contribution, ContributionsObject } from '../../types';
 
-	export let username: string;
+	export let totalContributions: number = 0;
+	export let contributions: Contribution[] = [];
 
-	let response: ContributionsObject | null = null;
-	let contributions: Contribution[] = [];
-	let totalContributions: number = 0;
 	let isLoading = true;
 	let error: string | null = null;
 
-	$: if (username && isValidGitHubUsername(username)) {
+	$: if (contributions.length > 0) {
 		fetchContributions();
 	}
 
@@ -19,13 +16,9 @@
 		isLoading = true;
 		error = null;
 		try {
-			response = await fetchUserContributions(username);
-			contributions = response.contributions;
-			totalContributions = response.totalContributions;
+			isLoading = false;
 		} catch (e) {
 			error = e instanceof Error ? e.message : 'An unknown error occurred';
-		} finally {
-			isLoading = false;
 		}
 	}
 
@@ -83,8 +76,8 @@
 	$: weekColumns = getWeekColumns(contributions);
 </script>
 
-<div class="max-w-full py-4">
-	<h2 class="text-2xl font-bold mb-5">GitHub Contributions</h2>
+<div class="max-w-full py-4 my-5">
+	<!-- <h2 class="text-2xl font-bold mb-5">GitHub Contributions</h2> -->
 	{#if isLoading}
 		<p>Loading contributions...</p>
 	{:else if error}
