@@ -3,7 +3,7 @@
 </script>
 
 <nav
-	class="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backgrop-filter]:bg-background/60"
+	class="sticky top-0 z-50 w-full border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
 >
 	<div class="flex h-16 justify-between items-center px-5">
 		<div class="flex items-center">
