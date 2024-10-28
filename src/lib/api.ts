@@ -34,6 +34,14 @@ export async function fetchGithubRepos(username: string) {
 	return repos;
 }
 
+export async function fetchGithubOrgsByUsername(username: string) {
+	const { data: orgs = [] } = await octokit.orgs.listForUser({
+		username
+	});
+
+	return orgs;
+}
+
 export async function fetchGithubContributions(username: string) {
 	const { contributions, totalContributions }: ContributionsObject =
 		await fetchUserContributions(username);
@@ -66,8 +74,11 @@ export async function fetchGithubData(username: string) {
 			)
 	);
 
+	const orgs = await fetchGithubOrgsByUsername(username);
+
 	return {
 		user,
+		orgs,
 		contributions,
 		totalContributions,
 		pinnedRepos,
