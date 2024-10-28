@@ -27,8 +27,16 @@ export const queryForUserPinnedRepos = `
                 url
                 stargazerCount
                 forkCount
+                homepageUrl
 								createdAt
                 updatedAt
+                repositoryTopics(first: 20) {
+                  nodes {
+                    topic {
+                      name
+                    }
+                  }
+                }
                 primaryLanguage {
                   name
                 }
