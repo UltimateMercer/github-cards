@@ -45,22 +45,25 @@
 <svelte:head>
 	<title>Github Data by Ultimate Mercer</title>
 	<meta name="author" content="Ultimate Mercer" />
-	<meta
-		name="keywords"
-		content="github, github profile, github card, github cards, github username"
-	/>
+	<meta name="keywords" content="github, github profile, github data, github username" />
 	<meta name="robots" content="index, follow" />
 
 	<!-- Primary Meta Tags -->
 	<meta name="title" content="Github Data by Ultimate Mercer" />
-	<meta name="description" content="Search for a Github username and get a Github profile card" />
+	<meta
+		name="description"
+		content="Search for a Github username to see user information, repositories, and contributions"
+	/>
 
 	<!-- Open Graph / Facebook -->
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://githubdata.ultimatemercer.com/" />
 	<meta property="og:title" content="Github Data by Ultimate Mercer" />
-	<meta property="og:description" content="" />
-	<meta property="og:image" content="ultimate-mercer-base.jpg" />
+	<meta
+		property="og:description"
+		content="Search for a Github username to see user information, repositories, and contributions"
+	/>
+	<meta property="og:image" content="%sveltekit.assets%/ultimate-mercer-base.jpg" />
 
 	<!-- Twitter -->
 	<meta property="twitter:card" content="summary_large_image" />
@@ -68,9 +71,9 @@
 	<meta property="twitter:title" content="Github Data by Ultimate Mercer" />
 	<meta
 		property="twitter:description"
-		content="Search for a Github username and get a Github profile card"
+		content="Search for a Github username to see user information, repositories, and contributions"
 	/>
-	<meta property="twitter:image" content="ultimate-mercer-base.jpg" />
+	<meta property="twitter:image" content="%sveltekit.assets%/ultimate-mercer-base.jpg" />
 
 	<!-- Meta Tags Generated with https://metatags.io -->
 </svelte:head>
