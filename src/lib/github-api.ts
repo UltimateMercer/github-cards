@@ -64,8 +64,9 @@ export function isValidGitHubUsername(username: string): boolean {
 	// GitHub usernames allow alphanumeric characters and hyphens
 	// They must not start or end with a hyphen
 	// Length must be between 1 and 39 characters
+	const usernameWithoutSpaces = username.replace(/\s/g, '');
 	const usernameRegex = /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i;
-	return usernameRegex.test(username);
+	return usernameRegex.test(usernameWithoutSpaces);
 }
 
 export async function fetchUserPinnedRepos(username: string) {
@@ -78,7 +79,6 @@ export async function fetchUserPinnedRepos(username: string) {
 	} catch (error) {
 		if (error instanceof RequestError) {
 			console.error(error);
-
 			throw new Error(`GitHub API error: ${error.message}`);
 		} else {
 			console.error(error);
