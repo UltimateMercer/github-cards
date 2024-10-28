@@ -49,9 +49,7 @@
 					{dialogContent.forks_count}
 				</span>
 			</span>
-			<!-- <span class="flex items-center text-base font-medium mb-2">
-				
-			</span> -->
+
 			<span class="flex items-center text-base font-medium mb-2">
 				<Calendar class="w-5 h-5 mr-1.5" />Created at: {formatFullDate({
 					date: dialogContent.created_at
@@ -64,7 +62,7 @@
 			</span>
 
 			{#if dialogContent.topics.length > 0}
-				<span class="flex items-center gap-1 mb-4">
+				<span class="flex flex-wrap items-center gap-1 mb-4">
 					<Tags class="w-6 h-6 mr-1" />
 					{#each dialogContent.topics as topic}
 						<Badge variant="outline">{topic}</Badge>
