@@ -84,7 +84,7 @@
 
 @layer utilities {
 	.background-texture {
-		background-image: url('css/noisy.png');
+		background-image: url('/css/noisy.png');
 		background-attachment: local;
 	}
 }
