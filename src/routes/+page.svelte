@@ -8,14 +8,18 @@
 	import { PushPin } from 'phosphor-svelte';
 	import LoadingSkeleton from '$lib/components/loading-skeleton.svelte';
 	import DialogContent from '$lib/components/dialog-content.svelte';
+	import { isValidGitHubUsername } from '$lib/github-api';
 
 	let username: string = '';
 	let timer: ReturnType<typeof setTimeout>;
 	const debounce = (value: string) => {
 		clearTimeout(timer);
-		timer = setTimeout(() => {
-			username = value.toLowerCase().replace(/\s+/g, '');
-		}, 1000);
+
+		if (isValidGitHubUsername(value)) {
+			timer = setTimeout(() => {
+				username = value.toLowerCase().replace(/\s+/g, '');
+			}, 1000);
+		}
 	};
 
 	let dialogOpen: boolean = false;
@@ -39,7 +43,36 @@
 </script>
 
 <svelte:head>
-	<title>Github Cards by Ultimate Mercer</title>
+	<title>Github Data by Ultimate Mercer</title>
+	<meta name="author" content="Ultimate Mercer" />
+	<meta
+		name="keywords"
+		content="github, github profile, github card, github cards, github username"
+	/>
+	<meta name="robots" content="index, follow" />
+
+	<!-- Primary Meta Tags -->
+	<meta name="title" content="Github Data by Ultimate Mercer" />
+	<meta name="description" content="Search for a Github username and get a Github profile card" />
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="" />
+	<meta property="og:title" content="Github Data by Ultimate Mercer" />
+	<meta property="og:description" content="" />
+	<meta property="og:image" content="ultimate-mercer-base.jpg" />
+
+	<!-- Twitter -->
+	<meta property="twitter:card" content="summary_large_image" />
+	<meta property="twitter:url" content="" />
+	<meta property="twitter:title" content="Github Data by Ultimate Mercer" />
+	<meta
+		property="twitter:description"
+		content="Search for a Github username and get a Github profile card"
+	/>
+	<meta property="twitter:image" content="ultimate-mercer-base.jpg" />
+
+	<!-- Meta Tags Generated with https://metatags.io -->
 </svelte:head>
 
 <main class="container mx-auto flex flex-col gap-6 px-5 sm:px-6 lg:px-8 py-8">
@@ -56,6 +89,10 @@
 			placeholder="e.g. UltimateMercer"
 			on:keyup={(event) => debounce((event.target as HTMLInputElement).value)}
 		/>
+		<p class="text-muted-foreground text-sm">
+			The username must be between 1 and 39 characters. Can only contain letters, numbers, and
+			hyphens. Cannot start or end with a hyphen.
+		</p>
 	</div>
 
 	<div
