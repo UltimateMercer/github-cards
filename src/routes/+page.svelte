@@ -89,7 +89,7 @@
 			placeholder="e.g. UltimateMercer"
 			on:keyup={(event) => debounce((event.target as HTMLInputElement).value)}
 		/>
-		<p class="text-muted-foreground text-sm">
+		<p class="text-muted-foreground text-sm mt-1">
 			The username must be between 1 and 39 characters. Can only contain letters, numbers, and
 			hyphens. Cannot start or end with a hyphen.
 		</p>
