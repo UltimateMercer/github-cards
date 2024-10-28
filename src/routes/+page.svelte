@@ -1,21 +1,16 @@
 <script module lang="ts">
-	import * as Avatar from '$lib/components/ui/avatar';
-	import { Badge } from '$lib/components/ui/badge';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
-	import { Skeleton } from '$lib/components/ui/skeleton';
 	import GitHubContributions from '$lib/components/github-contributions.svelte';
-	import * as Sheet from '$lib/components/ui/sheet';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { fetchGithubData } from '$lib/api';
-	import { Check, CircleX, Pin, GitFork, Star, Calendar, Terminal } from 'lucide-svelte';
-	import { GithubLogo, PushPin } from 'phosphor-svelte';
-	import { formatFullDate } from '$lib/date-format';
+	import { Check, CircleX, Terminal } from 'lucide-svelte';
+	import { PushPin } from 'phosphor-svelte';
+	import LoadingSkeleton from '$lib/components/loading-skeleton.svelte';
+	import DialogContent from '$lib/components/dialog-content.svelte';
 </script>
 
 <script>
-	import LoadingSkeleton from '$lib/components/loading-skeleton.svelte';
-
 	let username: string = '';
 	let timer: ReturnType<typeof setTimeout>;
 	const debounce = (value: string) => {
@@ -34,8 +29,6 @@
 		dialogContent = repo;
 	};
 
-	console.log(username);
-
 	$: query = createQuery({
 		queryKey: ['data', username],
 		queryFn: async () => {
@@ -45,8 +38,6 @@
 		},
 		enabled: !!username
 	});
-
-	console.log(query);
 </script>
 
 <svelte:head>
@@ -164,60 +155,5 @@
 			{/if}
 		</section>
 	</div>
-	<Sheet.Root bind:open={dialogOpen}>
-		<Sheet.Trigger />
-		<Sheet.Content>
-			<Sheet.Header>
-				<Sheet.Title>{dialogContent.full_name}</Sheet.Title>
-				<Sheet.Description></Sheet.Description>
-			</Sheet.Header>
-			{#if dialogContent.language}
-				<Badge class="mb-2" variant="outline">
-					{dialogContent.language}
-				</Badge>
-			{/if}
-			<p class="text-base font-medium mb-2">
-				{dialogContent.description && dialogContent.description}
-			</p>
-			<div class="flex flex-col gap-1 justify-between text-sm">
-				<span class="flex items-center text-base font-medium mb-2">
-					<Star class="w-6 h-6 mr-1.5 fill-yellow-500" color="#eab308" />
-					{dialogContent.stargazers_count}
-				</span>
-				<span class="flex items-center text-base font-medium mb-2">
-					<GitFork class="w-6 h-6 mr-1.5" />
-					{dialogContent.forks_count}
-				</span>
-				<span class="flex items-center text-base font-medium mb-2">
-					<Calendar class="w-6 h-6 mr-1.5" />Created at: {formatFullDate({
-						date: dialogContent.created_at
-					})}
-				</span>
-
-				<div class="flex items-center text-lg mb-5">
-					<Avatar.Root>
-						<Avatar.Image
-							src={dialogContent.owner.avatar_url}
-							class="object-cover"
-							alt={`@${dialogContent.owner.login}`}
-						/>
-						<Avatar.Fallback>{dialogContent.owner.login}</Avatar.Fallback>
-					</Avatar.Root>
-					<span class="font-medium ml-2">{dialogContent.owner.login}</span>
-				</div>
-
-				<Button variant="secondary">
-					<a
-						href={dialogContent.html_url}
-						class="flex items-center"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						<GithubLogo weight="bold" class="mr-2 h-5 w-5" />
-						View on Github
-					</a>
-				</Button>
-			</div>
-		</Sheet.Content>
-	</Sheet.Root>
+	<DialogContent bind:dialogOpen bind:dialogContent />
 </main>
