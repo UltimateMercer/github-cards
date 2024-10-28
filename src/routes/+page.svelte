@@ -1,16 +1,14 @@
-<script module lang="ts">
+<script lang="ts">
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 	import GitHubContributions from '$lib/components/github-contributions.svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { fetchGithubData } from '$lib/api';
-	import { Check, CircleX, Terminal } from 'lucide-svelte';
+	import { Building2, Check, CircleX, Link, Terminal } from 'lucide-svelte';
 	import { PushPin } from 'phosphor-svelte';
 	import LoadingSkeleton from '$lib/components/loading-skeleton.svelte';
 	import DialogContent from '$lib/components/dialog-content.svelte';
-</script>
 
-<script>
 	let username: string = '';
 	let timer: ReturnType<typeof setTimeout>;
 	const debounce = (value: string) => {
@@ -87,7 +85,7 @@
 			{:else if $query.isSuccess}
 				<Check class="mr-1.5 h-5 w-5" /> Github data loaded successfully
 			{:else}
-				<Terminal class="mr-1" /> Waiting for a username
+				Waiting for a username...
 			{/if}
 		</div>
 
@@ -108,12 +106,30 @@
 								alt=""
 							/>
 						</div>
-						<div class="flex-1">
+						<div class="flex flex-col flex-1 gap-1">
 							<h1 class="text-3xl font-bold tracking-wide">{$query.data.user.name}</h1>
 							<h3 class="text-xl font-medium tracking-wide">@{$query.data.user.login}</h3>
-							<p>
-								{$query.data.user.bio}
-							</p>
+							{#if $query.data.user.blog}
+								<a
+									href={$query.data.user.blog}
+									target="_blank"
+									class="text-base font-medium hover:underline flex items-center"
+									rel="noopener noreferrer"
+								>
+									<Link class="w-5 h-5 mr-1.5" />
+									{$query.data.user.blog}
+								</a>
+							{/if}
+							{#if $query.data.user.bio}
+								<p>
+									{$query.data.user.bio}
+								</p>
+							{/if}
+							{#if $query.data.user.company}
+								<span class="flex items-center"
+									><Building2 class="w-5 h-5 mr-1.5" /> {$query.data.user.company}</span
+								>
+							{/if}
 							<p>Followers: {$query.data.user.followers}</p>
 							<p>Following: {$query.data.user.following}</p>
 						</div>
@@ -132,13 +148,13 @@
 						</div>
 						<div class="flex flex-row flex-wrap gap-2.5">
 							{#each $query.data.pinnedRepos as pinned}
-								<Button on:click={() => handleDialog(pinned)}>
+								<Button on:click={() => handleDialog(pinned)} class="tracking-wide">
 									<PushPin weight="bold" class="mr-2 h-4 w-4" />
 									{pinned.full_name}
 								</Button>
 							{/each}
 							{#each $query.data.repos as repo}
-								<Button variant="outline" on:click={() => handleDialog(repo)}>
+								<Button variant="outline" on:click={() => handleDialog(repo)} class="tracking-wide">
 									{repo.full_name}
 								</Button>
 							{/each}
