@@ -68,6 +68,14 @@ export interface PinnedRepo {
 		name: string;
 	} | null;
 	owner: RepoOwner;
+	homepageUrl: string | null;
+	repositoryTopics: {
+		nodes: {
+			topic: {
+				name: string;
+			};
+		}[];
+	};
 	createdAt: string;
 	updatedAt: string;
 }
@@ -84,6 +92,14 @@ export interface StandardPinnedRepo {
 		login: string;
 		url: string;
 		avatar_url: string;
+	};
+	homepageUrl: string | null;
+	repositoryTopics: {
+		nodes: {
+			topic: {
+				name: string;
+			};
+		}[];
 	};
 	created_at: string;
 	updated_at: string;
