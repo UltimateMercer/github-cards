@@ -63,7 +63,10 @@
 		property="og:description"
 		content="Search for a Github username to see user information, repositories, and contributions"
 	/>
-	<meta property="og:image" content="%sveltekit.assets%/ultimate-mercer-base.jpg" />
+	<meta
+		property="og:image"
+		content="https://githubdata.ultimatemercer.com/ultimate-mercer-base.jpg"
+	/>
 
 	<!-- Twitter -->
 	<meta property="twitter:card" content="summary_large_image" />
@@ -73,7 +76,10 @@
 		property="twitter:description"
 		content="Search for a Github username to see user information, repositories, and contributions"
 	/>
-	<meta property="twitter:image" content="%sveltekit.assets%/ultimate-mercer-base.jpg" />
+	<meta
+		property="twitter:image"
+		content="https://githubdata.ultimatemercer.com/ultimate-mercer-base.jpg"
+	/>
 
 	<!-- Meta Tags Generated with https://metatags.io -->
 </svelte:head>
