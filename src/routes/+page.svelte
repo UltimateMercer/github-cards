@@ -57,14 +57,14 @@
 
 	<!-- Open Graph / Facebook -->
 	<meta property="og:type" content="website" />
-	<meta property="og:url" content="" />
+	<meta property="og:url" content="https://githubdata.ultimatemercer.com/" />
 	<meta property="og:title" content="Github Data by Ultimate Mercer" />
 	<meta property="og:description" content="" />
 	<meta property="og:image" content="ultimate-mercer-base.jpg" />
 
 	<!-- Twitter -->
 	<meta property="twitter:card" content="summary_large_image" />
-	<meta property="twitter:url" content="" />
+	<meta property="twitter:url" content="https://githubdata.ultimatemercer.com/" />
 	<meta property="twitter:title" content="Github Data by Ultimate Mercer" />
 	<meta
 		property="twitter:description"
