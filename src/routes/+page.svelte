@@ -4,10 +4,11 @@
 	import GitHubContributions from '$lib/components/github-contributions.svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { fetchGithubData } from '$lib/api';
-	import { Building2, Check, CircleX, Link, Terminal } from 'lucide-svelte';
+	import { Check, CircleX } from 'lucide-svelte';
 	import { PushPin } from 'phosphor-svelte';
 	import LoadingSkeleton from '$lib/components/loading-skeleton.svelte';
 	import DialogContent from '$lib/components/dialog-content.svelte';
+	import UserData from '$lib/components/user-data.svelte';
 	import { isValidGitHubUsername } from '$lib/github-api';
 
 	let username: string = '';
@@ -34,11 +35,12 @@
 	$: query = createQuery({
 		queryKey: ['data', username],
 		queryFn: async () => {
-			const { user, repos, contributions, totalContributions, pinnedRepos } =
+			const { user, orgs, repos, contributions, totalContributions, pinnedRepos } =
 				await fetchGithubData(username);
-			return { user, repos, contributions, totalContributions, pinnedRepos };
+			return { user, orgs, repos, contributions, totalContributions, pinnedRepos };
 		},
-		enabled: !!username
+		enabled: !!username,
+		refetchInterval: 60 * 60 * 1000
 	});
 </script>
 
@@ -134,7 +136,6 @@
 				Waiting for a username...
 			{/if}
 		</div>
-
 		<section>
 			{#if $query.isLoading}
 				<LoadingSkeleton />
@@ -144,42 +145,7 @@
 				</h1>
 			{:else if $query.isSuccess}
 				<div class="py-4">
-					<div class="flex flex-row gap-5">
-						<div class="">
-							<img
-								src={$query.data.user.avatar_url}
-								class="h-56 w-56 object-cover rounded-lg"
-								alt=""
-							/>
-						</div>
-						<div class="flex flex-col flex-1 gap-1">
-							<h1 class="text-3xl font-bold tracking-wide">{$query.data.user.name}</h1>
-							<h3 class="text-xl font-medium tracking-wide">@{$query.data.user.login}</h3>
-							{#if $query.data.user.blog}
-								<a
-									href={$query.data.user.blog}
-									target="_blank"
-									class="text-base font-medium hover:underline flex items-center"
-									rel="noopener noreferrer"
-								>
-									<Link class="w-5 h-5 mr-1.5" />
-									{$query.data.user.blog}
-								</a>
-							{/if}
-							{#if $query.data.user.bio}
-								<p>
-									{$query.data.user.bio}
-								</p>
-							{/if}
-							{#if $query.data.user.company}
-								<span class="flex items-center"
-									><Building2 class="w-5 h-5 mr-1.5" /> {$query.data.user.company}</span
-								>
-							{/if}
-							<p>Followers: {$query.data.user.followers}</p>
-							<p>Following: {$query.data.user.following}</p>
-						</div>
-					</div>
+					<UserData user={$query.data.user} orgs={$query.data.orgs} />
 					<GitHubContributions
 						contributions={$query.data.contributions}
 						totalContributions={$query.data.totalContributions}
@@ -207,7 +173,6 @@
 						</div>
 					</div>
 				</div>
-				<div class=""></div>
 			{:else}
 				<div class="py-8">
 					<h1 class="text-5xl font-bold text-black/10 dark:text-white/10 text-center">

@@ -76,7 +76,7 @@
 	$: weekColumns = getWeekColumns(contributions);
 </script>
 
-<div class="max-w-full py-4 my-5">
+<div class="max-w-full py-4 my-8">
 	<!-- <h2 class="text-2xl font-bold mb-5">GitHub Contributions</h2> -->
 	{#if isLoading}
 		<p>Loading contributions...</p>
@@ -90,7 +90,7 @@
 				{totalContributions} contributions in the last year
 			</div>
 			<div class="flex flex-col sm:flex-row">
-				<div class="flex flex-col gap-1 mr-1.5 text-xs text-gray-500">
+				<div class="md:flex flex-col hidden gap-1 mr-1.5 text-xs text-gray-500">
 					<div class="h-4 w-8"></div>
 					{#each ['Mon', '', 'Wed', '', 'Fri', ''] as day}
 						<div class="h-4 w-8 text-right font-medium pr-2">{day}</div>

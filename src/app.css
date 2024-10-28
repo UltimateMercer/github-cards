@@ -39,6 +39,19 @@
 		--ring: 224 71.4% 4.1%;
 
 		--radius: 0.5rem;
+
+		::-webkit-scrollbar {
+			width: 8px;
+		}
+
+		::-webkit-scrollbar-track {
+			background-color: #eaeaea;
+		}
+
+		::-webkit-scrollbar-thumb {
+			background-color: #121212;
+			border: 2px solid transparent;
+		}
 	}
 
 	.dark {
@@ -70,6 +83,19 @@
 		--destructive-foreground: 210 20% 98%;
 
 		--ring: 216 12.2% 83.9%;
+
+		::-webkit-scrollbar {
+			width: 8px;
+		}
+
+		::-webkit-scrollbar-track {
+			background-color: #121212;
+		}
+
+		::-webkit-scrollbar-thumb {
+			background-color: #eaeaea;
+			border: 2px solid transparent;
+		}
 	}
 }
 
