@@ -68,6 +68,8 @@ export const standardizePinnedRepos = (pinnedRepos: PinnedRepo[]) => {
 			forks_count: repo.forkCount,
 			created_at: repo.createdAt,
 			updated_at: repo.updatedAt,
+			topics: repo.repositoryTopics.nodes.map((node) => node.topic.name),
+			homepage: repo.homepageUrl,
 			owner: {
 				login: repo.owner.login,
 				url: repo.owner.url,
