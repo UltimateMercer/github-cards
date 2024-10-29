@@ -13,7 +13,7 @@
 </script>
 
 <Sheet.Root bind:open={dialogOpen}>
-	<Sheet.Trigger />
+	<Sheet.Trigger aria-label="Open sheet" />
 	<SheetContent>
 		<Sheet.Header>
 			<Sheet.Title class="tracking-wide">{dialogContent.full_name}</Sheet.Title>

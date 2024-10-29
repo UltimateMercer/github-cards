@@ -91,13 +91,13 @@
 				{totalContributions} contributions in the last year
 			</div>
 			<div class="flex flex-col sm:flex-row">
-				<div class="md:flex flex-col hidden gap-1 mr-1.5 text-xs text-gray-500">
+				<div class="md:flex flex-col hidden gap-1 mr-1.5 text-xs dark:text-gray-300">
 					<div class="h-4 w-8"></div>
 					{#each ['Mon', '', 'Wed', '', 'Fri', ''] as day}
 						<div class="h-4 w-8 text-right font-medium pr-2">{day}</div>
 					{/each}
 				</div>
-				<div class="flex flex-col w-full sm:w-auto overflow-x-auto">
+				<div class="flex flex-col w-full sm:w-auto overflow-x-auto pb-1.5">
 					<div class="flex">
 						{#each weekColumns as week}
 							<div class="flex flex-col mr-1">
@@ -122,7 +122,7 @@
 			</div>
 			<div class="absolute -bottom-4 right-6 !border bg-background px-2 py-1.5 rounded">
 				<div class="flex justify-end items-center text-sm text-gray-600">
-					<span class="mr-2">Less</span>
+					<span class="mr-2 dark:text-gray-300">Less</span>
 					<div class="flex gap-1">
 						<div class="w-4 h-4 bg-gray-100 dark:bg-gray-800"></div>
 						<div class="w-4 h-4 bg-sky-200 dark:bg-sky-800"></div>
@@ -130,7 +130,7 @@
 						<div class="w-4 h-4 bg-sky-400 dark:bg-sky-600"></div>
 						<div class="w-4 h-4 bg-sky-500"></div>
 					</div>
-					<span class="ml-2">More</span>
+					<span class="ml-2 dark:text-gray-300">More</span>
 				</div>
 			</div>
 		</div>
