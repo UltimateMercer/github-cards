@@ -77,13 +77,14 @@
 </script>
 
 <div class="max-w-full py-4 my-8">
-	<!-- <h2 class="text-2xl font-bold mb-5">GitHub Contributions</h2> -->
 	{#if isLoading}
 		<p>Loading contributions...</p>
 	{:else if error}
 		<p class="text-red-500">Error: {error}</p>
 	{:else}
-		<div class="relative p-6 bg-background/20 backdrop-blur-md backdrop-filter border rounded-lg">
+		<div
+			class="relative py-6 px-6 bg-background/20 backdrop-blur-md backdrop-filter border rounded-lg"
+		>
 			<div
 				class="absolute -top-4 bg-background inline-flex items-center px-2 py-1.5 rounded font-medium tracking-wide leading-none text-black dark:text-white !border"
 			>
@@ -119,7 +120,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="absolute -bottom-4 right-4 !border bg-background px-2 py-1.5 rounded">
+			<div class="absolute -bottom-4 right-6 !border bg-background px-2 py-1.5 rounded">
 				<div class="flex justify-end items-center text-sm text-gray-600">
 					<span class="mr-2">Less</span>
 					<div class="flex gap-1">

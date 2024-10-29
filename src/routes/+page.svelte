@@ -10,11 +10,22 @@
 	import DialogContent from '$lib/components/dialog-content.svelte';
 	import UserData from '$lib/components/user-data.svelte';
 	import { isValidGitHubUsername } from '$lib/github-api';
+	import { onMount } from 'svelte';
 
 	let username: string = '';
+	let input: string = '';
 	let timer: ReturnType<typeof setTimeout>;
+
+	const handleQueryString = (value: string) => {
+		const url = new URL(window.location.href);
+		console.log(window.location.href);
+		url.searchParams.set('un', value);
+		history.replaceState(null, '', url);
+	};
+
 	const debounce = (value: string) => {
 		clearTimeout(timer);
+		handleQueryString(value);
 
 		if (isValidGitHubUsername(value)) {
 			timer = setTimeout(() => {
@@ -41,6 +52,14 @@
 		},
 		enabled: !!username,
 		refetchInterval: 60 * 60 * 1000
+	});
+
+	onMount(() => {
+		const url = new URL(window.location.href);
+		const queryStringUsername = url.searchParams.get('un');
+		if (queryStringUsername) {
+			username = input = queryStringUsername;
+		}
 	});
 </script>
 
@@ -99,6 +118,7 @@
 			type="text"
 			placeholder="e.g. UltimateMercer"
 			on:keyup={(event) => debounce((event.target as HTMLInputElement).value)}
+			value={input}
 		/>
 		<p class="text-muted-foreground text-sm mt-1">
 			The username must be between 1 and 39 characters. Can only contain letters, numbers, and

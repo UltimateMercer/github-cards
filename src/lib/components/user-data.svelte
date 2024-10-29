@@ -8,21 +8,20 @@
 
 <div class="flex md:flex-row flex-col flex-wrap gap-5">
 	<div class="">
-		<img src={user.avatar_url} class="h-80 w-80 mx-auto object-cover rounded-lg" alt={user.login} />
+		<img
+			src={user.avatar_url}
+			class="h-80 w-80 mx-auto object-cover rounded-full border-2"
+			alt={user.login}
+		/>
 	</div>
-	<div class="flex flex-col flex-1 gap-1">
+	<div class="flex flex-col flex-1 gap-1.5">
 		<h1 class="text-3xl font-bold tracking-wide inline-flex items-center gap-2">
 			{user.name} (@{user.login})
 		</h1>
-		<!-- <h3 class="text-xl font-medium tracking-wide"></h3> -->
 		{#if user.bio}
 			<p>
 				{user.bio}
 			</p>
-		{/if}
-
-		{#if user.company}
-			<span class="flex items-center"><Building2 class="w-5 h-5 mr-1.5" /> {user.company}</span>
 		{/if}
 		<div class="flex items-center gap-2">
 			<UsersThree size="24" />
@@ -30,6 +29,10 @@
 				<strong> {user.followers}</strong> followers <Dot /> <strong>{user.following}</strong> following
 			</span>
 		</div>
+		{#if user.company}
+			<span class="flex items-center"><Building2 class="w-5 h-5 mr-1.5" /> {user.company}</span>
+		{/if}
+
 		{#if user.blog}
 			<a
 				href={user.blog}
@@ -46,7 +49,7 @@
 		{/if}
 		{#if orgs.length > 0}
 			<div class="max-w-full">
-				<h4 class="text-lg font-bold">Organizations</h4>
+				<h4 class="text-lg tracking-wide font-bold">Organizations</h4>
 				<div class="flex flex-wrap items-center gap-1">
 					{#each orgs as org}
 						<div class="inline-flex items-center border px-2 py-1.5 rounded bg-background">
