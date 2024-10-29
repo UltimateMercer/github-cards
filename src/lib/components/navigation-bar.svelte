@@ -7,7 +7,7 @@
 >
 	<div class="flex h-16 justify-between items-center px-5">
 		<div class="flex items-center">
-			<a href="/">
+			<a href="/" aria-label="Home">
 				<img
 					src="ultimate-logo-red.svg"
 					class="!max-w-none mx-auto w-[56px] h-[56px] hidden dark:block"
@@ -16,7 +16,7 @@
 					alt="Ultimate Mercer Logo"
 				/>
 			</a>
-			<a href="/">
+			<a href="/" aria-label="Home">
 				<img
 					src="ultimate-logo-dark.svg"
 					class="!max-w-none mx-auto w-[56px] h-[56px] block dark:hidden"

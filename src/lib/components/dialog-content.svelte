@@ -33,6 +33,7 @@
 				class="text-base font-medium mb-2 hover:underline flex items-center"
 				target="_blank"
 				rel="noopener noreferrer"
+				aria-label={`Access ${dialogContent.homepage}`}
 			>
 				<Link class="w-5 h-5 mr-1.5" />
 				{dialogContent.homepage}
@@ -82,12 +83,13 @@
 				<span class="font-medium ml-2">{dialogContent.owner.login}</span>
 			</div>
 
-			<Button variant="secondary">
+			<Button variant="secondary" aria-label="View on Github">
 				<a
 					href={dialogContent.html_url}
 					class="flex items-center"
 					target="_blank"
 					rel="noopener noreferrer"
+					aria-label="View on Github"
 				>
 					<GithubLogo weight="bold" class="mr-2 h-5 w-5" />
 					View on Github

@@ -160,9 +160,9 @@
 			{#if $query.isLoading}
 				<LoadingSkeleton />
 			{:else if $query.isError}
-				<h1 class="text-5xl font-bold text-black/10 dark:text-white/10 text-center">
+				<h3 class="text-5xl font-bold text-black/10 dark:text-white/10 text-center">
 					Failed to load Github data :(
-				</h1>
+				</h3>
 			{:else if $query.isSuccess}
 				<div class="py-4">
 					<UserData user={$query.data.user} orgs={$query.data.orgs} />
@@ -180,13 +180,22 @@
 						</div>
 						<div class="flex flex-row flex-wrap gap-2.5">
 							{#each $query.data.pinnedRepos as pinned}
-								<Button on:click={() => handleDialog(pinned)} class="tracking-wide">
+								<Button
+									on:click={() => handleDialog(pinned)}
+									class="tracking-wide"
+									aria-label="Open sheet"
+								>
 									<PushPin weight="bold" class="mr-2 h-4 w-4" />
 									{pinned.full_name}
 								</Button>
 							{/each}
 							{#each $query.data.repos as repo}
-								<Button variant="outline" on:click={() => handleDialog(repo)} class="tracking-wide">
+								<Button
+									variant="outline"
+									on:click={() => handleDialog(repo)}
+									class="tracking-wide"
+									aria-label="Open sheet"
+								>
 									{repo.full_name}
 								</Button>
 							{/each}
@@ -195,9 +204,9 @@
 				</div>
 			{:else}
 				<div class="py-8">
-					<h1 class="text-5xl font-bold text-black/10 dark:text-white/10 text-center">
+					<h3 class="text-5xl font-bold text-black/10 dark:text-white/10 text-center">
 						Github data will show here
-					</h1>
+					</h3>
 				</div>
 			{/if}
 		</section>
