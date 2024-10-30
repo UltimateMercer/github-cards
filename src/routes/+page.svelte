@@ -9,6 +9,7 @@
 	import LoadingSkeleton from '$lib/components/loading-skeleton.svelte';
 	import DialogContent from '$lib/components/dialog-content.svelte';
 	import UserData from '$lib/components/user-data.svelte';
+	import * as Tooltip from '$lib/components/ui/tooltip';
 	import { isValidGitHubUsername } from '$lib/github-api';
 	import { onMount } from 'svelte';
 
@@ -18,7 +19,6 @@
 
 	const handleQueryString = (value: string) => {
 		const url = new URL(window.location.href);
-		console.log(window.location.href);
 		url.searchParams.set('un', value);
 		history.replaceState(null, '', url);
 	};
@@ -57,7 +57,8 @@
 	onMount(() => {
 		const url = new URL(window.location.href);
 		const queryStringUsername = url.searchParams.get('un');
-		if (queryStringUsername) {
+
+		if (queryStringUsername && isValidGitHubUsername(queryStringUsername)) {
 			username = input = queryStringUsername;
 		}
 	});
@@ -176,7 +177,14 @@
 						<div
 							class="absolute -top-4 bg-background inline-flex items-center px-2 py-1.5 rounded font-medium tracking-wide leading-none text-black dark:text-white !border"
 						>
-							{$query.data.pinnedRepos.length + $query.data.repos.length} repositories
+							<Tooltip.Root>
+								<Tooltip.Trigger>
+									{$query.data.pinnedRepos.length + $query.data.repos.length} repositories*
+								</Tooltip.Trigger>
+								<Tooltip.Content>
+									<p>Can list approximately 100 repositories</p>
+								</Tooltip.Content>
+							</Tooltip.Root>
 						</div>
 						<div class="flex flex-row flex-wrap gap-2.5">
 							{#each $query.data.pinnedRepos as pinned}

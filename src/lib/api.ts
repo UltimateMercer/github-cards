@@ -1,5 +1,4 @@
 import { Octokit } from '@octokit/rest';
-import type { ContributionsObject, PinnedRepo } from '../types';
 import { fetchUserContributions, fetchUserPinnedRepos } from './github-api';
 import { standardizePinnedRepos } from './utils';
 
@@ -12,69 +11,62 @@ export async function fetchGithubUser(username: string) {
 		username
 	});
 
-	if (!user) {
-		throw new Error('Data not found');
-	}
-
-	return user;
+	return user ?? null;
 }
 
 export async function fetchGithubRepos(username: string) {
-	const { data: repos }: { data: any } = await octokit.repos.listForUser({
+	const { data: repos } = await octokit.repos.listForUser({
 		username,
 		per_page: 100,
 		sort: 'updated',
 		type: 'all'
 	});
 
-	if (!repos) {
-		throw new Error('Data not found');
-	}
-
-	return repos;
+	return repos ?? [];
 }
 
 export async function fetchGithubOrgsByUsername(username: string) {
-	const { data: orgs = [] } = await octokit.orgs.listForUser({
+	const { data: orgs } = await octokit.orgs.listForUser({
 		username
 	});
 
-	return orgs;
+	return orgs ?? [];
 }
 
 export async function fetchGithubContributions(username: string) {
-	const { contributions, totalContributions }: ContributionsObject =
-		await fetchUserContributions(username);
-
-	return { contributions, totalContributions };
+	return await fetchUserContributions(username);
 }
 
 export async function fetchGithubPinnedRepos(username: string) {
-	const pinnedRepos: PinnedRepo[] = await fetchUserPinnedRepos(username);
-	const standardPinnedRepos = standardizePinnedRepos(pinnedRepos);
-
-	return standardPinnedRepos;
+	const pinnedRepos = await fetchUserPinnedRepos(username);
+	return standardizePinnedRepos(pinnedRepos);
 }
 
-export async function fetchGithubData(username: string) {
-	const user = await fetchGithubUser(username);
-	const repos = await fetchGithubRepos(username);
-
-	if (!user || !repos) {
-		throw new Error('Data not found');
-	}
-
-	const { contributions, totalContributions } = await fetchGithubContributions(username);
-	const pinnedRepos = await fetchGithubPinnedRepos(username);
-
-	const filteredRepos = repos.filter(
-		(repo: any) =>
+function filterOutPinnedRepos(repos: any[], pinnedRepos: any[]) {
+	return repos.filter(
+		(repo) =>
 			!pinnedRepos.some(
 				(pinnedRepo) => pinnedRepo.name === repo.name || pinnedRepo.full_name === repo.full_name
 			)
 	);
+}
 
-	const orgs = await fetchGithubOrgsByUsername(username);
+export async function fetchGithubData(username: string) {
+	const [user, repos, orgs, { contributions, totalContributions }, pinnedRepos] = await Promise.all(
+		[
+			fetchGithubUser(username),
+			fetchGithubRepos(username),
+			fetchGithubOrgsByUsername(username),
+			fetchGithubContributions(username),
+			fetchGithubPinnedRepos(username)
+		]
+	);
+
+	if (!user) {
+		throw new Error('User data not found');
+	}
+
+	const filteredRepos = filterOutPinnedRepos(repos, pinnedRepos);
 
 	return {
 		user,

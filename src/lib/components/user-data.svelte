@@ -17,7 +17,15 @@
 	</div>
 	<div class="flex flex-col flex-1 gap-1.5">
 		<h1 class="text-3xl font-bold tracking-wide inline-flex items-center gap-2">
-			{user.name} (@{user.login})
+			{user.name}
+			<a
+				href={user.html_url}
+				target="_blank"
+				rel="noopener noreferrer"
+				aria-label="View Github profile"
+			>
+				(@{user.login})
+			</a>
 		</h1>
 		{#if user.bio}
 			<p>
